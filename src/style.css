@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-main: #FDE047;
+  --color-accent: #A855F7;
+  --color-success: #4ade80;
+  --color-success-text: #22c55e;
+  --color-danger: #f87171;
+  --color-danger-text: #ef4444;
+  --color-info: #60a5fa;
+  --color-warning: #f97316;
+  --color-gray-light: #e5e7eb;
+  --color-gray-text: #6b7280;
+  --color-gray-dark: #4b5563;
+  --shadow-neo: 4px 4px 0px 0px rgba(0,0,0,1);
+  --shadow-neo-hover: 2px 2px 0px 0px rgba(0,0,0,1);
+  --border-neo: 3px solid #000;
+}
+
+@utility bg-dot {
+  background-color: #ffffff;
+  background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+  background-size: 30px 30px;
+}
+
+@layer base {
+  body {
+    @apply bg-dot text-black font-sans antialiased;
+  }
+}
