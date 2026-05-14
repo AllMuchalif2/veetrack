@@ -126,7 +126,7 @@ const balance = computed(() => totalIncome.value - totalExpense.value)
       </div>
     </div>
 
-    <div class="flex flex-col gap-4">
+    <transition-group name="list" tag="div" class="flex flex-col gap-4">
       <div v-for="item in finances" :key="item.id" class="bg-white border-[3px] border-black shadow-neo p-4 flex justify-between items-center transition-all">
         <div>
           <h3 class="font-bold text-lg">{{ item.name }}</h3>
@@ -145,6 +145,6 @@ const balance = computed(() => totalIncome.value - totalExpense.value)
       <div v-if="finances.length === 0" class="text-center font-bold text-gray-text py-10 border-[3px] border-black border-dashed bg-white">
         Belum ada riwayat transaksi.
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>

@@ -4,10 +4,12 @@ import { db } from '../services/db'
 
 const todos = ref([])
 const tasks = ref([])
+const finances = ref([])
 
 onMounted(async () => {
   todos.value = await db.todos.toArray()
   tasks.value = await db.tasks.toArray()
+  finances.value = await db.finance.toArray()
 })
 
 const todayTodos = computed(() => {
@@ -21,10 +23,22 @@ const totalStreaks = computed(() => {
   return tasks.value.reduce((sum, task) => sum + (task.current_streak || 0), 0)
 })
 
+const financeStats = computed(() => {
+  const income = finances.value.filter((f) => f.type === 'income').reduce((s, f) => s + f.amount, 0)
+  const expense = finances.value.filter((f) => f.type === 'expense').reduce((s, f) => s + f.amount, 0)
+  const total = income + expense || 1
+  return {
+    income,
+    expense,
+    incomePercent: (income / total) * 100,
+    expensePercent: (expense / total) * 100,
+  }
+})
+
 const quickLinks = [
   { name: 'Notes', path: '/notes', icon: 'fa-note-sticky', color: 'bg-main', textWhite: false },
   { name: 'To-Do', path: '/todos', icon: 'fa-list-check', color: 'bg-white', textWhite: false },
-  { name: 'Tasks', path: '/tasks', icon: 'fa-fire', color: 'bg-white', textWhite: false },
+  { name: 'Tasks', path: '/tasks', icon: 'fa-bolt', color: 'bg-white', textWhite: false },
   { name: 'Finance', path: '/finance', icon: 'fa-wallet', color: 'bg-white', textWhite: false },
   { name: 'AI Chat', path: '/chat', icon: 'fa-robot', color: 'bg-accent', textWhite: true },
 ]
@@ -63,7 +77,7 @@ const quickLinks = [
           v-else
           class="flex flex-col items-center justify-center grow py-4 border-[3px] border-black border-dashed bg-gray-50"
         >
-          <p class="text-2xl font-black text-success-text">Bebas Tugas! 🎉</p>
+          <p class="text-2xl font-black text-success-text">Bebas Tugas!</p>
           <p class="text-sm font-bold text-gray-text mt-1">Tidak ada deadline tersisa hari ini.</p>
         </div>
       </div>
@@ -78,6 +92,43 @@ const quickLinks = [
           {{ totalStreaks }} <i class="fa-solid fa-fire text-warning text-6xl"></i>
         </p>
         <p class="font-bold text-gray-text mt-4">Terus pertahankan konsistensi Anda!</p>
+      </div>
+    </div>
+
+    <!-- Financial Summary Visual -->
+    <div class="bg-white border-[3px] border-black shadow-neo p-6">
+      <h3 class="text-2xl font-black uppercase mb-6 flex items-center justify-between">
+        <span>Ringkasan Keuangan</span>
+        <i class="fa-solid fa-chart-simple text-accent"></i>
+      </h3>
+
+      <div class="space-y-6">
+        <div class="flex justify-between font-black uppercase text-sm">
+          <span class="text-success-text">Income: Rp {{ financeStats.income.toLocaleString('id-ID') }}</span>
+          <span class="text-danger-text">Expense: Rp {{ financeStats.expense.toLocaleString('id-ID') }}</span>
+        </div>
+
+        <div class="w-full h-12 border-[3px] border-black bg-gray-100 flex overflow-hidden shadow-neo">
+          <div
+            class="h-full bg-success border-r-[3px] border-black transition-all duration-500"
+            :style="{ width: financeStats.incomePercent + '%' }"
+          ></div>
+          <div
+            class="h-full bg-danger transition-all duration-500"
+            :style="{ width: financeStats.expensePercent + '%' }"
+          ></div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 bg-success border-2 border-black"></div>
+            <span class="text-xs font-bold uppercase">Pemasukan</span>
+          </div>
+          <div class="items-center gap-2 flex">
+            <div class="w-4 h-4 bg-danger border-2 border-black"></div>
+            <span class="text-xs font-bold uppercase">Pengeluaran</span>
+          </div>
+        </div>
       </div>
     </div>
 

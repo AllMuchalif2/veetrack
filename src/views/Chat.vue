@@ -57,7 +57,9 @@ Aturan ketat:
 </script>
 
 <template>
-  <div class="h-[calc(100vh-180px)] flex flex-col bg-white border-[3px] border-black shadow-neo">
+  <div
+    class="h-[calc(100vh-180px)] flex flex-col bg-white border-[3px] border-black shadow-neo mb-2"
+  >
     <div
       class="bg-accent text-white font-black p-4 border-b-[3px] border-black flex items-center justify-between"
     >
@@ -70,16 +72,16 @@ Aturan ketat:
       <div
         v-for="(m, i) in messages"
         :key="i"
-        class="p-3 border-[3px] border-black max-w-[85%] font-bold shadow-neo"
+        class="p-3 border-[3px] border-black max-w-[85%] font-bold shadow-neo mb-1 mr-1"
         :class="m.role === 'user' ? 'bg-main self-end' : 'bg-white self-start'"
       >
         {{ m.content }}
       </div>
     </div>
-    <div class="p-4 border-t-[3px] border-black bg-white flex gap-2">
+    <div class="p-4 border-t-[3px] border-black bg-white flex items-center gap-2">
       <button
         @click="inputMsg = '/catat ' + inputMsg"
-        class="bg-success text-black font-black px-4 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all"
+        class="flex-none bg-success text-black font-black px-4 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all mr-1 mb-1"
         title="Catat Transaksi"
       >
         <i class="fa-solid fa-receipt text-xl"></i>
@@ -87,12 +89,12 @@ Aturan ketat:
       <input
         v-model="inputMsg"
         @keyup.enter="sendMessage"
-        class="grow border-[3px] border-black p-3 font-bold outline-none focus:bg-main transition-colors"
+        class="grow min-w-0 border-[3px] border-black p-3 font-bold outline-none focus:bg-main transition-colors mb-1"
         placeholder="Ketik pesan..."
       />
       <button
         @click="sendMessage"
-        class="bg-main text-black font-black px-6 border-[3px] border-black shadow-neo hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover transition-all"
+        class="flex-none bg-main text-black font-black px-6 py-3 border-[3px] border-black shadow-neo hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover transition-all mr-1 mb-1"
       >
         <i class="fa-solid fa-paper-plane text-xl"></i>
       </button>

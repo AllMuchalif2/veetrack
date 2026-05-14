@@ -169,7 +169,11 @@ const summarizeNote = async (note) => {
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <transition-group 
+      name="list" 
+      tag="div" 
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
       <div
         v-for="note in notes"
         :key="note.id"
@@ -199,6 +203,6 @@ const summarizeNote = async (note) => {
           </button>
         </div>
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>

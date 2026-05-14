@@ -111,7 +111,7 @@ const completeTask = async (task) => {
     longest_streak: longest,
     last_completed_at: new Date().toISOString(),
   })
-  showToast(`Streak meningkat! Total: ${newStreak} 🔥`, 'success')
+  showToast(`Streak meningkat! Total: ${newStreak}`, 'success')
   await loadTasks()
 }
 
@@ -135,8 +135,6 @@ const deleteTask = async (id) => {
         <i class="fa-solid fa-plus mr-2"></i>Tambah
       </button>
     </div>
-
-    <!-- Modal Form -->
     <div
       v-if="showModal"
       class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
@@ -180,7 +178,7 @@ const deleteTask = async (id) => {
       </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <transition-group name="list" tag="div" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <div
         v-for="task in tasks"
         :key="task.id"
@@ -228,6 +226,6 @@ const deleteTask = async (id) => {
       >
         Belum ada Task.
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>

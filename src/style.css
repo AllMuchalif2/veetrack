@@ -12,8 +12,8 @@
   --color-gray-light: #e5e7eb;
   --color-gray-text: #6b7280;
   --color-gray-dark: #4b5563;
-  --shadow-neo: 4px 4px 0px 0px rgba(0,0,0,1);
-  --shadow-neo-hover: 2px 2px 0px 0px rgba(0,0,0,1);
+  --shadow-neo: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-neo-hover: 2px 2px 0px 0px rgba(0, 0, 0, 1);
   --border-neo: 3px solid #000;
 }
 
@@ -25,6 +25,40 @@
 
 @layer base {
   body {
-    @apply bg-dot text-black font-sans antialiased;
+    @apply bg-dot text-black font-sans antialiased overflow-x-hidden;
   }
+
+  html {
+    @apply overflow-x-hidden;
+  }
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s ease-out;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.list-move {
+  transition: transform 0.3s ease;
 }

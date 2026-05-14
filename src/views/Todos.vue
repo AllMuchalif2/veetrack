@@ -102,7 +102,7 @@ const deleteTodo = async (id) => {
       </div>
     </div>
 
-    <div class="flex flex-col gap-4">
+    <transition-group name="list" tag="div" class="flex flex-col gap-4">
       <div v-for="todo in todos" :key="todo.id" class="bg-white border-[3px] border-black shadow-neo p-4 flex justify-between items-center transition-colors" :class="{ 'bg-gray-light': todo.is_completed }">
         <div class="flex items-center gap-4 grow">
           <input type="checkbox" :checked="todo.is_completed" @change="toggleTodo(todo)" class="w-6 h-6 border-[3px] border-black accent-main cursor-pointer" />
@@ -119,6 +119,6 @@ const deleteTodo = async (id) => {
       <div v-if="todos.length === 0" class="text-center font-bold text-gray-text py-10 border-[3px] border-black border-dashed bg-white">
         Belum ada To-Do.
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>

@@ -150,7 +150,7 @@ const importData = (event) => {
                   Master switch untuk semua pengingat aplikasi.
                 </p>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label class="relative inline-flex items-center cursor-pointer select-none">
                 <input
                   type="checkbox"
                   v-model="notificationsEnabled"
@@ -158,7 +158,10 @@ const importData = (event) => {
                   class="sr-only peer"
                 />
                 <div
-                  class="w-14 h-7 bg-white peer-focus:outline-none border-[3px] border-black rounded-none peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-black after:border-black after:border-2 after:h-5 after:w-5 after:transition-all peer-checked:bg-success"
+                  class="w-16 h-8 bg-white border-[3px] border-black rounded-none peer peer-focus:outline-none peer-checked:bg-success transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                ></div>
+                <div
+                  class="absolute top-1 left-1 w-6 h-6 bg-black transition-all peer-checked:translate-x-8 shadow-[1px_1px_0px_0px_rgba(0,0,0,0.5)]"
                 ></div>
               </label>
             </div>
