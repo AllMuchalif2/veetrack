@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { db } from '../services/db'
 import { useToast } from '../composables/useToast'
+import PageHeader from '../components/PageHeader.vue'
+import BaseModal from '../components/BaseModal.vue'
 
 const { showToast } = useToast()
 const tasks = ref([])
@@ -124,34 +126,17 @@ const deleteTask = async (id) => {
 
 <template>
   <div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-3xl font-black uppercase border-b-[3px] border-black pb-2 inline-block">
-        Tasks & Streaks
-      </h2>
-      <button
-        @click="openModal"
-        class="bg-accent text-white font-bold px-6 py-2 border-[3px] border-black shadow-neo hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover transition-all"
-      >
-        <i class="fa-solid fa-plus mr-2"></i>Tambah
-      </button>
-    </div>
-    <div
-      v-if="showModal"
-      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-    >
-      <div
-        class="bg-white border-[3px] border-black shadow-neo p-6 w-full max-w-md flex flex-col relative"
-      >
-        <button
-          @click="showModal = false"
-          class="absolute top-4 right-4 text-xl active:translate-y-[2px]"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-        <h3 class="text-xl font-black uppercase mb-4">
-          {{ editingId ? 'Edit Task' : 'Task Baru' }}
-        </h3>
+    <PageHeader 
+      title="Tasks & Streaks" 
+      @action="openModal()" 
+    />
 
+    <BaseModal 
+      :show="showModal" 
+      :title="editingId ? 'Edit Task' : 'Task Baru'"
+      @close="showModal = false"
+    >
+      <div class="flex flex-col">
         <label class="font-bold mb-1">Nama Task (Habit)</label>
         <input
           v-model="title"
@@ -168,15 +153,17 @@ const deleteTask = async (id) => {
           <option value="weekly">Mingguan (Weekly)</option>
           <option value="monthly">Bulanan (Monthly)</option>
         </select>
+      </div>
 
+      <template #actions>
         <button
           @click="saveTask"
-          class="bg-main text-black font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all"
+          class="w-full bg-main text-black font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all"
         >
           {{ editingId ? 'Perbarui Task' : 'Simpan Task' }}
         </button>
-      </div>
-    </div>
+      </template>
+    </BaseModal>
 
     <transition-group name="list" tag="div" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <div

@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { db } from '../services/db'
 import { useToast } from '../composables/useToast'
+import PageHeader from '../components/PageHeader.vue'
+import BaseModal from '../components/BaseModal.vue'
 
 const { showToast } = useToast()
 const todos = ref([])
@@ -77,30 +79,30 @@ const deleteTodo = async (id) => {
 
 <template>
   <div class="max-w-3xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-3xl font-black uppercase border-b-[3px] border-black pb-2 inline-block">To-Do</h2>
-      <button @click="openModal" class="bg-accent text-white font-bold px-6 py-2 border-[3px] border-black shadow-neo hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover transition-all">
-        <i class="fa-solid fa-plus mr-2"></i>Tambah
-      </button>
-    </div>
+    <PageHeader 
+      title="To-Do" 
+      @action="openModal()" 
+    />
 
-    <!-- Modal Form -->
-    <div v-if="showModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div class="bg-white border-[3px] border-black shadow-neo p-6 w-full max-w-md flex flex-col relative">
-        <button @click="showModal = false" class="absolute top-4 right-4 text-xl active:translate-y-[2px]"><i class="fa-solid fa-xmark"></i></button>
-        <h3 class="text-xl font-black uppercase mb-4">{{ editingId ? 'Edit To-Do' : 'To-Do Baru' }}</h3>
-        
+    <BaseModal 
+      :show="showModal" 
+      :title="editingId ? 'Edit To-Do' : 'To-Do Baru'"
+      @close="showModal = false"
+    >
+      <div class="flex flex-col">
         <label class="font-bold mb-1">Nama Tugas</label>
         <input v-model="title" class="w-full border-[3px] border-black p-3 mb-4 font-bold outline-none focus:bg-main transition-colors" placeholder="Cth: Beli Kopi" />
         
         <label class="font-bold mb-1">Batas Waktu (Deadline)</label>
         <input v-model="deadline" type="datetime-local" class="w-full border-[3px] border-black p-3 mb-6 font-bold outline-none focus:bg-main transition-colors" />
-        
-        <button @click="saveTodo" class="bg-main text-black font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all">
+      </div>
+
+      <template #actions>
+        <button @click="saveTodo" class="w-full bg-main text-black font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all">
           {{ editingId ? 'Perbarui To-Do' : 'Simpan To-Do' }}
         </button>
-      </div>
-    </div>
+      </template>
+    </BaseModal>
 
     <transition-group name="list" tag="div" class="flex flex-col gap-4">
       <div v-for="todo in todos" :key="todo.id" class="bg-white border-[3px] border-black shadow-neo p-4 flex justify-between items-center transition-colors" :class="{ 'bg-gray-light': todo.is_completed }">

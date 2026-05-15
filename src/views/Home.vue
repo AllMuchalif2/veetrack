@@ -25,7 +25,9 @@ const totalStreaks = computed(() => {
 
 const financeStats = computed(() => {
   const income = finances.value.filter((f) => f.type === 'income').reduce((s, f) => s + f.amount, 0)
-  const expense = finances.value.filter((f) => f.type === 'expense').reduce((s, f) => s + f.amount, 0)
+  const expense = finances.value
+    .filter((f) => f.type === 'expense')
+    .reduce((s, f) => s + f.amount, 0)
   const total = income + expense || 1
   return {
     income,
@@ -104,11 +106,17 @@ const quickLinks = [
 
       <div class="space-y-6">
         <div class="flex justify-between font-black uppercase text-sm">
-          <span class="text-success-text">Income: Rp {{ financeStats.income.toLocaleString('id-ID') }}</span>
-          <span class="text-danger-text">Expense: Rp {{ financeStats.expense.toLocaleString('id-ID') }}</span>
+          <span class="text-success-text"
+            >Income: Rp {{ financeStats.income.toLocaleString('id-ID') }}</span
+          >
+          <span class="text-danger-text"
+            >Expense: Rp {{ financeStats.expense.toLocaleString('id-ID') }}</span
+          >
         </div>
 
-        <div class="w-full h-12 border-[3px] border-black bg-gray-100 flex overflow-hidden shadow-neo">
+        <div
+          class="w-full h-12 border-[3px] border-black bg-gray-100 flex overflow-hidden shadow-neo"
+        >
           <div
             class="h-full bg-success border-r-[3px] border-black transition-all duration-500"
             :style="{ width: financeStats.incomePercent + '%' }"

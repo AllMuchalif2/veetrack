@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 import { db } from '../services/db'
 import { fetchAI } from '../services/groq'
 import { useToast } from '../composables/useToast'
+import PageHeader from '../components/PageHeader.vue'
+import BaseModal from '../components/BaseModal.vue'
 
 const { showToast } = useToast()
 const notes = ref([])
@@ -87,36 +89,18 @@ const summarizeNote = async (note) => {
 
 <template>
   <div>
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-3xl font-black uppercase border-b-[3px] border-black pb-2 inline-block">
-        Notes
-      </h2>
-      <button
-        @click="openModal"
-        class="bg-accent text-white font-bold px-6 py-2 border-[3px] border-black shadow-neo hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-hover transition-all"
-      >
-        <i class="fa-solid fa-plus mr-2"></i>Tambah
-      </button>
-    </div>
+    <PageHeader 
+      title="Notes" 
+      @action="openModal" 
+    />
 
     <!-- Modal Form -->
-    <div
-      v-if="showModal"
-      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    <BaseModal 
+      :show="showModal" 
+      :title="isEditing ? 'Edit Catatan' : 'Catat Baru'"
+      @close="showModal = false"
     >
-      <div
-        class="bg-white border-[3px] border-black shadow-neo p-6 w-full max-w-lg flex flex-col relative"
-      >
-        <button
-          @click="showModal = false"
-          class="absolute top-4 right-4 text-xl active:translate-y-[2px]"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-        <h3 class="text-xl font-black uppercase mb-4">
-          {{ isEditing ? 'Edit Catatan' : 'Catatan Baru' }}
-        </h3>
-
+      <div class="flex flex-col">
         <input
           v-model="title"
           class="w-full border-[3px] border-black p-3 mb-4 font-bold outline-none focus:bg-main transition-colors"
@@ -124,50 +108,42 @@ const summarizeNote = async (note) => {
         />
         <textarea
           v-model="content"
-          class="w-full border-[3px] border-black p-3 mb-6 h-40 outline-none focus:bg-main transition-colors"
+          class="w-full border-[3px] border-black p-3 mb-2 h-40 outline-none focus:bg-main transition-colors"
           placeholder="Isi Catatan..."
         ></textarea>
+      </div>
 
+      <template #actions>
         <button
           @click="saveNote"
-          class="bg-main text-black font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all"
+          class="w-full bg-main text-black font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all"
         >
           {{ isEditing ? 'Simpan Perubahan' : 'Simpan Catatan' }}
         </button>
-      </div>
-    </div>
+      </template>
+    </BaseModal>
 
     <!-- AI Summary Modal -->
-    <div
-      v-if="showSummaryModal"
-      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    <BaseModal 
+      :show="showSummaryModal" 
+      title="Ringkasan AI"
+      @close="showSummaryModal = false"
     >
-      <div
-        class="bg-white border-[3px] border-black shadow-neo p-6 w-full max-w-lg flex flex-col relative max-h-[80vh]"
-      >
-        <button
-          @click="showSummaryModal = false"
-          class="absolute top-4 right-4 text-xl active:translate-y-[2px]"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-        <div class="flex items-center gap-3 mb-4 border-b-[3px] border-black pb-2">
-          <i class="fa-solid fa-robot text-2xl text-accent"></i>
-          <h3 class="text-xl font-black uppercase">Ringkasan AI</h3>
-        </div>
-
-        <div class="overflow-y-auto whitespace-pre-wrap leading-relaxed font-medium mb-6 grow">
+      <div class="flex flex-col max-h-[60vh]">
+        <div class="overflow-y-auto whitespace-pre-wrap leading-relaxed font-medium mb-2 grow bg-gray-light/30 p-4 border-[3px] border-black border-dashed">
           {{ summaryContent }}
         </div>
+      </div>
 
+      <template #actions>
         <button
           @click="showSummaryModal = false"
-          class="bg-accent text-white font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all mt-auto"
+          class="w-full bg-accent text-white font-black uppercase tracking-wider px-6 py-3 border-[3px] border-black shadow-neo active:translate-x-[2px] active:translate-y-[2px] transition-all"
         >
           Tutup
         </button>
-      </div>
-    </div>
+      </template>
+    </BaseModal>
 
     <transition-group 
       name="list" 

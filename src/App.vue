@@ -8,7 +8,7 @@ useNotifications()
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col pb-24 md:pb-6">
+  <div class="min-h-screen flex flex-col pt-20 pb-24 md:pb-6">
     <ToastContainer />
     <Navbar />
 

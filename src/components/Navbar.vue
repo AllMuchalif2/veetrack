@@ -26,7 +26,7 @@ const installApp = async () => {
   <div>
     <!-- Top Header -->
     <header
-      class="bg-main border-b-[3px] border-black p-4 flex justify-between items-center shadow-neo z-10 sticky top-0"
+      class="fixed top-0 left-0 w-full bg-main border-b-[3px] border-black p-4 flex justify-between items-center shadow-neo z-50"
     >
       <div class="flex items-center gap-2">
         <h1 class="text-2xl font-black uppercase tracking-wider">veetrack</h1>
